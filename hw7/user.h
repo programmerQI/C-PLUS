@@ -5,10 +5,10 @@ class User
 {
 private:
 
-    const int SIZE = 200;
+    const static int SIZE = 200;
 
     std::string username;
-    int rating[SIZE];
+    int ratings[SIZE];
     int numRatings;
 
 public:
