@@ -8,10 +8,10 @@ private:
     const static int SIZE = 200;
     string username;
     int ratings[SIZE];
-    int numRatings
+    int numRatings;
 public:
     User();
-    User(string username, int ratings[], numRatings);
+    User(string username, int ratings[], int numRatings);
     string getUsername();
     void setUsername(string username);
     int getRatingAt(int index);
