@@ -13,7 +13,7 @@ int split(string str, char c, string strs[], int siz)
     str.push_back(c);
     len_str++;
 
-    char tmp[200];
+    char tmp[2000];
     int t = 0;
     int cnt = 0;
 

@@ -15,7 +15,7 @@ public:
     string getUsername();
     void setUsername(string username);
     int getRatingAt(int index);
-    void setRatingAt(int index, int value);
+    bool setRatingAt(int index, int value);
     int getNumRatings();
     void setNumRatings(int numRatings);
     int getSize();

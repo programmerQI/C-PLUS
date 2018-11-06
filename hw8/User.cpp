@@ -34,11 +34,20 @@ void User::setUsername(string username)
 }
 int User::getRatingAt(int index)
 {
+    if(index<0||index >= this->numRatings)
+    {
+        return -1;
+    }
     return this->ratings[index];
 }
-void User::setRatingAt(int index, int value)
+bool User::setRatingAt(int index, int value)
 {
+    if(value>5||value<0||index<0||index>=this->numRatings)
+    {
+        return false;
+    }
     this->ratings[index]=value;
+    return true;
 }
 int User::getNumRatings()
 {
