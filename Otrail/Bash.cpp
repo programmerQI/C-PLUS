@@ -45,6 +45,14 @@ void Bash::ask_memberName()
         printf("%s\n",askMemberName[i++]);
     }
 }
+void Bash::chose_departureTime()
+{
+    int i = 0;
+    while(strlen(choseDepartureTime[i])!=0)
+    {
+        printf("%s\n",choseDepartureTime[i++]);
+    }
+}
 void Bash::ask_shoppingItem()
 {
     int i = 0;

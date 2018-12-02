@@ -23,6 +23,13 @@ Player::Player(std::string leader, std::string member1, std::string member2, std
     this->member4.name = member4;
     this->member4.status = ALIVE;
 
+    money = 1400;
+    oxen = 0;
+    food = 0;
+    bullets = 0;
+    wagonPart = 0;
+    medicalKit = 0;
+
 }
 void Player::init(std::string leader, std::string member1, std::string member2, std::string member3, std::string member4)
 {
@@ -41,6 +48,13 @@ void Player::init(std::string leader, std::string member1, std::string member2, 
 
     this->member4.name = member4;
     this->member4.status = ALIVE;
+
+    money = 1400;
+    oxen = 0;
+    food = 0;
+    bullets = 0;
+    wagonPart = 0;
+    medicalKit = 0;
 
 }
 int Player::get_money()

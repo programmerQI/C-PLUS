@@ -20,6 +20,12 @@ private:
 
     char askMemberName[100][100] = {"please entering the four members' name:"};
 
+    char choseDepartureTime[100][100] = {"You are going to travel from Independence, Missouri to Oregon City (2040 miles)",
+                                         "by the end of fall(November 30th, 1847).",
+                                         "Please select a time(between 03/01/1847 and 05/01/1847) you want to depart.",
+                                         "month(3~5):",
+                                         "date(0~31):"};
+
     char askShoppingItem[100][100] = {"buy what? :"};
 
     char askShoppingAmount[100][100] = {"buy how many? :"};
@@ -30,7 +36,7 @@ private:
                                "1. rest.",
                                "2. go.",
                                "3. hunt.",
-                               "3. quit."};
+                               "4. quit."};
 
 public:
 
@@ -46,6 +52,8 @@ public:
     void ask_leaderName();
 
     void ask_memberName();
+
+    void chose_departureTime();
 
     void ask_shoppingItem();
 
