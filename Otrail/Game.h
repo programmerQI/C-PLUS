@@ -8,7 +8,8 @@
 #include <string>
 #include <cstdlib>
 #include <ctime>
-struct Date{
+struct Date
+{
     int month;
     int date;
 };
@@ -97,6 +98,29 @@ public:
         return 0;
     }
 };
+class Puzzle
+{
+private:
+    int number;
+public:
+    const static int MATCH = 1;
+    const static int NOTMATCH = 0;
+
+    Puzzle()
+    {
+        srand(std::time(NULL));
+        number = rand()%10 + 1;
+    }
+
+    int solve(int n)
+    {
+        if( n == number )
+        {
+            return MATCH;
+        }
+        return NOTMATCH;
+    }
+};
 class Game
 {
 
@@ -120,8 +144,11 @@ public:
     int startGame();
     int initGameInfo();
     int takeTurn();
+    int consume();
     int shop();
-
+    int rest();
+    int go();
+    int hunt();
 
 };
 #endif // GAME_H

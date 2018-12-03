@@ -10,5 +10,6 @@ int main()
     {
         cout << "Game is running" << endl;
         game.initGameInfo();
+        game.takeTurn();
     }
 }

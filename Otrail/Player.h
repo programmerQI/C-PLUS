@@ -44,6 +44,11 @@ public:
     Player(std::string leader, std::string member1, std::string member2, std::string member3, std::string member4);
     void init(std::string leader, std::string member1, std::string member2, std::string member3, std::string member4);
 
+    int get_leaderStatus();
+    int get_member1Status();
+    int get_member2Status();
+    int get_member3Status();
+    int get_member4Status();
 
     int get_money();
     int add_money(int amount);

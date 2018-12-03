@@ -38,6 +38,51 @@ private:
                                "3. hunt.",
                                "4. quit."};
 
+    char encounterRabbit[100][100] = {"you got lucky!",
+                                      "you encountered a rabbit!",
+                                      "take 10 bullets, get 2 food",
+                                      "do you want to hunt?",
+                                      "1. yes.",
+                                      "2. no."};
+
+    char encounterFox[100][100] = {"you got lucky!",
+                                      "you encountered a fox!",
+                                      "",
+                                      "do you want to hunt?",
+                                      "1. yes.",
+                                      "2. no."};
+
+    char encounterDeer[100][100] = {"you got lucky!",
+                                      "you encountered a deer!",
+                                      "do you want to hunt?",
+                                      "1. yes.",
+                                      "2. no."};
+
+    char encounterBeer[100][100] = {"you got lucky!",
+                                      "you encountered a beer!",
+                                      "do you want to hunt?",
+                                      "1. yes.",
+                                      "2. no."};
+
+    char encounterMoose[100][100] = {"you got lucky!",
+                                      "you encountered a moose!",
+                                      "do you want to hunt?",
+                                      "1. yes.",
+                                      "2. no."};
+
+    char showHuntSuccess[100][100] = {"Success!"};
+
+    char noEnoughBullets[100][100] = {"you don't have enough bullets!"};
+
+    char showPuzzle[100][100] = {"please guess a number between 1~10.",
+                                  "you have three chances:"};
+
+    char showPuzzleMatch[100][100] = {"right"};
+
+    char showPuzzleNotMatch[100][100] = {"wrong"};
+
+
+
 public:
 
     const static int SUCCESS = 1;
@@ -62,6 +107,26 @@ public:
     void no_enoughMoney();
 
     void show_todoList();
+
+    void encounter_rabbit();
+
+    void encounter_fox();
+
+    void encounter_deer();
+
+    void encounter_beer();
+
+    void encounter_moose();
+
+    void show_huntSuccess();
+
+    void no_enoughBullets();
+
+    void show_puzzle();
+
+    void show_puzzleMatch();
+
+    void show_puzzleNotMatch();
 
     void plyerCurrent_info();
 

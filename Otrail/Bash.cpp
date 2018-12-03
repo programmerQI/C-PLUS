@@ -85,6 +85,86 @@ void Bash::show_todoList()
         printf("%s\n",todoList[i++]);
     }
 }
+void Bash::encounter_rabbit()
+{
+    int i = 0;
+    while(strlen(encounterRabbit[i])!=0)
+    {
+        printf("%s\n",encounterRabbit[i++]);
+    }
+}
+void Bash::encounter_fox()
+{
+    int i = 0;
+    while(strlen(encounterFox[i])!=0)
+    {
+        printf("%s\n",encounterFox[i++]);
+    }
+}
+void Bash::encounter_deer()
+{
+    int i = 0;
+    while(strlen(encounterDeer[i])!=0)
+    {
+        printf("%s\n",encounterDeer[i++]);
+    }
+}
+void Bash::encounter_beer()
+{
+    int i = 0;
+    while(strlen(encounterBeer[i])!=0)
+    {
+        printf("%s\n",encounterBeer[i++]);
+    }
+}
+void Bash::encounter_moose()
+{
+    int i = 0;
+    while(strlen(encounterMoose[i])!=0)
+    {
+        printf("%s\n",encounterMoose[i++]);
+    }
+}
+void Bash::show_huntSuccess()
+{
+    int i = 0;
+    while(strlen(showHuntSuccess[i])!=0)
+    {
+        printf("%s\n",showHuntSuccess[i++]);
+    }
+}
+void Bash::no_enoughBullets()
+{
+    int i = 0;
+    while(strlen(noEnoughBullets[i])!=0)
+    {
+        printf("%s\n",noEnoughBullets[i++]);
+    }
+}
+void Bash::show_puzzle()
+{
+    int i = 0;
+    while(strlen(showPuzzle[i])!=0)
+    {
+        printf("%s\n",showPuzzle[i++]);
+    }
+}
+void Bash::show_puzzleMatch()
+{
+    int i = 0;
+    while(strlen(showPuzzleMatch[i])!=0)
+    {
+        printf("%s\n",showPuzzleMatch[i++]);
+    }
+}
+void Bash::show_puzzleNotMatch()
+{
+    int i = 0;
+    while(strlen(showPuzzleNotMatch[i])!=0)
+    {
+        printf("%s\n",showPuzzleNotMatch[i++]);
+    }
+}
 void Bash::plyerCurrent_info()
 {
 
@@ -97,7 +177,7 @@ void Bash::show_storeInfo(Store store)
     std::cout << "3. bullets " << store.get_bulletsPrice() << std::endl;
     std::cout << "4. wagonPart " << store.get_wagonPartPrice() << std::endl;
     std::cout << "5. medicalKit " << store.get_medicalKitPrice() << std::endl;
-    std::cout << "6. done " << store.get_medicalKitPrice() << std::endl;
+    std::cout << "6. done " << std::endl;
 }
 void Bash::show_playersMoney(Player player)
 {

@@ -57,7 +57,27 @@ void Player::init(std::string leader, std::string member1, std::string member2, 
     medicalKit = 0;
 
 }
-int Player::get_money()
+int Player::get_leaderStatus()
+{
+    return leader.status;
+}
+int Player::get_member1Status()
+{
+    return member1.status;
+}
+int Player::get_member2Status()
+{
+    return member2.status;
+}
+int Player::get_member3Status()
+{
+    return member3.status;
+}
+int Player::get_member4Status()
+{
+    return member4.status;
+}
+int Player::Player::get_money()
 {
     return money;
 }
