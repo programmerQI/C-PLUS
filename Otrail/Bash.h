@@ -16,6 +16,8 @@ private:
 
     char sayGoodBye[100][100] = {"Good Bye!"};
 
+    char gameOver[100][100] = {"Game Over!"};
+
     char askLeaderName[100][100] = {"please entering the leader's name:"};
 
     char askMemberName[100][100] = {"please entering the four members' name:"};
@@ -81,8 +83,6 @@ private:
 
     char showPuzzleNotMatch[100][100] = {"wrong"};
 
-
-
 public:
 
     const static int SUCCESS = 1;
@@ -93,6 +93,8 @@ public:
     void show_startGameMenu();
 
     void say_goodBye();
+
+    void game_over();
 
     void ask_leaderName();
 
@@ -128,11 +130,21 @@ public:
 
     void show_puzzleNotMatch();
 
-    void plyerCurrent_info();
+    void show_playerCurrentInfo(Player player);
+
+    void show_travelInfo(int month, int date, int mileage);
+
+    void pop_memberDead(std::string name);
+
+    void pop_memberSick(std::string name);
+
+    void pop_stoneInfo(std::string name);
 
     void show_storeInfo(Store store);
 
     void show_playersMoney(Player player);
+
+    void pop_memberDead();
 
     int print_notation(const char *path);
 };

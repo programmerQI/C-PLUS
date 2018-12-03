@@ -1,12 +1,12 @@
 ﻿Fort Kearney
-304mi
+304
 Fort Laramie
-640mi
+640
 Fort Bridger
-989mi
+989
 Fort Hall
-1395mi
+1395
 Fort Boise
-1648mi
+1648
 Fort Walla Walla
-1863mi
+1863

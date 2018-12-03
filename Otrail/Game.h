@@ -4,6 +4,8 @@
 #include "Player.cpp"
 #include "Bash.h"
 #include "Bash.cpp"
+#include "Misfortunes.h"
+#include "Misfortunes.cpp"
 #include <iostream>
 #include <string>
 #include <cstdlib>
@@ -12,6 +14,12 @@ struct Date
 {
     int month;
     int date;
+};
+struct Stone
+{
+    std::string name;
+    int mileage;
+    int type;
 };
 class Time
 {
@@ -37,6 +45,7 @@ public:
 
     int setStart(int month, int date)
     {
+
         //std::cout << month << "++" << date << std::endl;
         if(month < 3 || month > 5)
         {
@@ -49,6 +58,16 @@ public:
         start.month = month;
         start.date = date;
         return 1;
+    }
+
+    int get_currentMonth()
+    {
+        return start.month;
+    }
+
+    int get_currentDate()
+    {
+        return start.date;
     }
 
     int rest()
@@ -127,11 +146,16 @@ class Game
 private:
 
     char file1[100] = "notation.txt";
+    char file2[100] = "fort-milestones.txt";
+    char file3[100] = "river-milestones.txt";
 
     Time time;
     Bash bash;
     Player player;
-    //std::ifstream in;
+    Misfortunes misfortunes;
+    int count_stones;
+    Stone stones[20];
+    std::ifstream in;
     int count_passedMilage;
     int count_passedStore;
 
@@ -139,6 +163,9 @@ public:
 
     const static int MONEY = 1000;
     const static int DISTANCE = 2040;
+
+
+
 
     Game();
     int startGame();
@@ -149,6 +176,8 @@ public:
     int rest();
     int go();
     int hunt();
-
+    int opt_negtiveEvent();
+    int isGameOver();
+    int sortStone();
 };
 #endif // GAME_H

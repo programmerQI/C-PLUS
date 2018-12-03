@@ -57,26 +57,77 @@ void Player::init(std::string leader, std::string member1, std::string member2, 
     medicalKit = 0;
 
 }
+
+std::string Player::get_leaderName()
+{
+    return leader.name;
+}
+
+std::string Player::get_member1Name()
+{
+    return member1.name;
+}
+
+std::string Player::get_member2Name()
+{
+    return member2.name;
+}
+
+std::string Player::get_member3Name()
+{
+    return member3.name;
+}
+
+std::string Player::get_member4Name()
+{
+    return member4.name;
+}
+
 int Player::get_leaderStatus()
 {
     return leader.status;
 }
+void Player::set_leaderStatus(int status)
+{
+    this->leader.status = status;
+}
+
 int Player::get_member1Status()
 {
     return member1.status;
 }
+void Player::set_member1Status(int status)
+{
+    this->leader.status = status;
+}
+
 int Player::get_member2Status()
 {
     return member2.status;
 }
+void Player::set_member2Status(int status)
+{
+    this->member2.status = status;
+}
+
 int Player::get_member3Status()
 {
     return member3.status;
 }
+void Player::set_member3Status(int status)
+{
+    this->member3.status = status;
+}
+
 int Player::get_member4Status()
 {
     return member4.status;
 }
+void Player::set_member4Status(int status)
+{
+    this->member4.status = status;
+}
+
 int Player::Player::get_money()
 {
     return money;
@@ -107,11 +158,11 @@ int Player::add_oxen(int amount)
 }
 int Player::reduce_oxen(int amount)
 {
+    oxen -= amount;
     if(amount > oxen)
     {
         return NOENOUGH_OXEN;
     }
-    oxen -= amount;
     return SUCCESS;
 }
 
@@ -126,11 +177,11 @@ int Player::add_food(int amount)
 }
 int Player::reduce_food(int amount)
 {
+    food -= amount;
     if(amount > food)
     {
         return NOENOUGH_FOOD;
     }
-    food -= amount;
     return SUCCESS;
 }
 
@@ -167,6 +218,7 @@ int Player::reduce_wagonPart(int amount)
     {
         return NOENOUGH_WAGONPART;
     }
+    wagonPart -= amount;
     return SUCCESS;
 }
 

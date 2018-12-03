@@ -29,6 +29,14 @@ void Bash::say_goodBye()
         printf("%s\n",sayGoodBye[i++]);
     }
 }
+void Bash::game_over()
+{
+    int i = 0;
+    while(strlen(gameOver[i])!=0)
+    {
+        printf("%s\n",gameOver[i++]);
+    }
+}
 void Bash::ask_leaderName()
 {
     int i = 0;
@@ -165,9 +173,26 @@ void Bash::show_puzzleNotMatch()
         printf("%s\n",showPuzzleNotMatch[i++]);
     }
 }
-void Bash::plyerCurrent_info()
+void Bash::show_playerCurrentInfo(Player player)
 {
 
+}
+void Bash::show_travelInfo(int month, int date, int mileage)
+{
+    std::cout << "--Month : " << month << " Date : " << date << "--" << std::endl;
+    std::cout << "--Mileage : " << mileage << std::endl;
+}
+void Bash::pop_memberDead(std::string name)
+{
+    std::cout << name << " " << "dead!" << std::endl;
+}
+void Bash::pop_memberSick(std::string name)
+{
+    std::cout << name << " " << "sick!" << std::endl;
+}
+void Bash::pop_stoneInfo(std::string name)
+{
+    std::cout << "Cross " << name << "!" << std::endl;
 }
 void Bash::show_storeInfo(Store store)
 {
@@ -185,6 +210,8 @@ void Bash::show_playersMoney(Player player)
 }
 int Bash::print_notation(const char *path)
 {
+    std::cout << "there it is" << std::endl;
+
     std::ifstream file;
     file.open(path);
     if(!file.is_open())

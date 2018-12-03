@@ -1,6 +1,8 @@
 #ifndef BASIC_TOOL
 #define BASIC_TOOL
 #include <string>
+namespace basic_tool
+{
 int isNum(char c)
 {
     return (c >= '0' && c <= '9') ? 1 : 0 ;
@@ -11,8 +13,9 @@ int getNum(char c)
 }
 int stoi(std::string str)
 {
+    //std::cout << "this is it" << std::endl;
     int ans = 0;
-    int i;
+    int i = 0;
     while(str[i]!='\0')
     {
         if(!isNum(str[i]))
@@ -23,5 +26,6 @@ int stoi(std::string str)
         i++;
     }
     return ans;
+}
 }
 #endif // BASIC_TOOL

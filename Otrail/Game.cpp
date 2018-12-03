@@ -5,11 +5,25 @@
 #include "Store.h"
 #include "Store.cpp"
 #include "Hunt.h"
-#include "Hunt.cpp"))
+#include "Hunt.cpp"
 #include <iostream>
 #include <string>
 #include <cstdlib>
 #include <ctime>
+int Game::sortStone()
+{
+    Stone tmp;
+    for(int i = 1 ; i < count_stones ; i++)
+    {
+        tmp = stones[i];
+        for(int j = i - 1 ; j >= 0 && stones[j].mileage > tmp.mileage; j -- )
+        {
+            stones[j+1] =  stones[j];
+            stones[j] = tmp;
+        }
+    }
+    return 1;
+}
 Game::Game()
 {
     //std::cout << "This is it!" << std::endl;
@@ -37,11 +51,42 @@ int Game::startGame()
 }
 int Game::initGameInfo()
 {
+    std::string str;
+    int num;
+    count_stones = 0;
+    std::ifstream in;
+    in.open(file2);
+    if(in.is_open())
+    {
+        while(in>>str>>num&&count_stones < 20)
+        {
+            stones[count_stones].mileage = num;
+            stones[count_stones].name = str;
+            stones[count_stones].type = 1;
+            count_stones ++;
+        }
+    }
+    in.close();
+    in.open(file3);
+    if(in.is_open())
+    {
+        while(in>>str>>num&&count_stones < 20)
+        {
+            stones[count_stones].mileage = num;
+            stones[count_stones].name = str;
+            stones[count_stones].type = 2;
+            count_stones ++;
+        }
+    }
+    in.close();
+    sortStone();
 
+    misfortunes.setPlayer(&player);
     count_passedMilage = 0;
     count_passedStore = 0;
 
     std::string str1, str2, str3, str4, str5;
+
 
     bash.ask_leaderName();
     std::cin >> str1;
@@ -54,20 +99,27 @@ int Game::initGameInfo()
     {
         bash.chose_departureTime();
         std::cin>> str1 >> str2;
+        //std::cout << "this is it" << std::endl;
     }
-    while (time.setStart(stoi(str1),stoi(str2)) == time.NOTVALID);
+    while (time.setStart(basic_tool::stoi(str1),basic_tool::stoi(str2)) == time.NOTVALID);
     bash.print_notation(file1);
+
     shop();
 
     return 1;
 }
 int Game::takeTurn()
 {
+
+    bash.show_travelInfo(time.get_currentMonth(),time.get_currentDate(),count_passedMilage);
+
+    opt_negtiveEvent();
+
     std::string str1, str2, str3, str4, str5;
     bash.show_todoList();
 
     std::cin >> str1;
-    switch(stoi(str1))
+    switch(basic_tool::stoi(str1))
     {
     case 1:
         rest();
@@ -118,66 +170,66 @@ int Game::shop()
         bash.show_storeInfo(newStore);
         bash.ask_shoppingItem();
         std::cin >> str1;
-        if(stoi(str1) == 6)
+        if(basic_tool::stoi(str1) == 6)
         {
             return 1;
         }
         bash.ask_shoppingAmount();
         std::cin >> str2;
-        switch (stoi(str1))
+        switch (basic_tool::stoi(str1))
         {
         case 1:
-            if(player.reduce_money(newStore.purchaseOxen(stoi(str2))) == player.NOENOUGH_MONEY)
+            if(player.reduce_money(newStore.purchaseOxen(basic_tool::stoi(str2))) == player.NOENOUGH_MONEY)
             {
                 bash.no_enoughMoney();
             }
             else
             {
-                player.add_oxen(stoi(str2));
+                player.add_oxen(basic_tool::stoi(str2));
                 bash.show_playersMoney(player);
             }
             break;
         case 2:
-            if(player.reduce_money(newStore.purchaseFood(stoi(str2))) == player.NOENOUGH_MONEY)
+            if(player.reduce_money(newStore.purchaseFood(basic_tool::stoi(str2))) == player.NOENOUGH_MONEY)
             {
                 bash.no_enoughMoney();
             }
             else
             {
-                player.add_food(stoi(str2));
+                player.add_food(basic_tool::stoi(str2));
                 bash.show_playersMoney(player);
             }
             break;
         case 3:
-            if(player.reduce_money(newStore.purchaseBullets(stoi(str2))) == player.NOENOUGH_MONEY)
+            if(player.reduce_money(newStore.purchaseBullets(basic_tool::stoi(str2))) == player.NOENOUGH_MONEY)
             {
                 bash.no_enoughMoney();
             }
             else
             {
-                player.add_bullets(stoi(str2));
+                player.add_bullets(basic_tool::stoi(str2));
                 bash.show_playersMoney(player);
             }
             break;
         case 4:
-            if(player.reduce_money(newStore.purchaseWagonPart(stoi(str2))) == player.NOENOUGH_MONEY)
+            if(player.reduce_money(newStore.purchaseWagonPart(basic_tool::stoi(str2))) == player.NOENOUGH_MONEY)
             {
                 bash.no_enoughMoney();
             }
             else
             {
-                player.add_wagonPart(stoi(str2));
+                player.add_wagonPart(basic_tool::stoi(str2));
                 bash.show_playersMoney(player);
             }
             break;
         case 5:
-            if(player.reduce_money(newStore.purchaseMedicalKit(stoi(str2))) == player.NOENOUGH_MONEY)
+            if(player.reduce_money(newStore.purchaseMedicalKit(basic_tool::stoi(str2))) == player.NOENOUGH_MONEY)
             {
                 bash.no_enoughMoney();
             }
             else
             {
-                player.add_medicalKit(stoi(str2));
+                player.add_medicalKit(basic_tool::stoi(str2));
                 bash.show_playersMoney(player);
             }
             break;
@@ -190,15 +242,32 @@ int Game::shop()
 int Game::rest()
 {
     time.rest();
+    misfortunes.rest();
     consume();
 }
 int Game::go()
 {
+    time.going();
+
     srand(std::time(NULL));
-    count_passedMilage += (rand()%70 + 71);
+
+    int mile = rand()%70 + 71;
+    count_passedMilage += mile;
+    for(int i = 0 ; i < count_stones ; i++)
+    {
+        if(stones[i].mileage > count_passedMilage - mile && stones[i].mileage < count_passedMilage )
+        {
+            bash.show_storeInfo(stones[i].mileage);
+            count_passedStore = stones[i].mileage;
+            break;
+        }
+    }
 }
 int Game::hunt()
 {
+    //std::cout << "asdfasdf" << std::endl;
+    time.hunt();
+
     std::string str1, str2;
     Hunt ht;
     int cnt;
@@ -208,7 +277,7 @@ int Game::hunt()
         std::cin >> str1;
         while(true)
         {
-            if(stoi(str1) == 1)
+            if(basic_tool::stoi(str1) == 1)
             {
                 Puzzle puzzle;
                 bash.show_puzzle();
@@ -216,7 +285,7 @@ int Game::hunt()
                 while(cnt--)
                 {
                     std::cin >> str2;
-                    if(puzzle.solve(stoi(str2)) == puzzle.MATCH)
+                    if(puzzle.solve(basic_tool::stoi(str2)) == puzzle.MATCH)
                     {
                         if(player.reduce_bullets(10) != player.NOENOUGH_BULLETS)
                         {
@@ -248,7 +317,7 @@ int Game::hunt()
         std::cin >> str1;
         while(true)
         {
-            if(stoi(str1) == 1)
+            if(basic_tool::stoi(str1) == 1)
             {
                 Puzzle puzzle;
                 bash.show_puzzle();
@@ -256,7 +325,7 @@ int Game::hunt()
                 while(cnt--)
                 {
                     std::cin >> str2;
-                    if(puzzle.solve(stoi(str2)) == puzzle.MATCH)
+                    if(puzzle.solve(basic_tool::stoi(str2)) == puzzle.MATCH)
                     {
                         if(player.reduce_bullets(8) != player.NOENOUGH_BULLETS)
                         {
@@ -276,7 +345,7 @@ int Game::hunt()
                 }
                 break;
             }
-            else if(stoi(str2) == 2)
+            else if(basic_tool::stoi(str2) == 2)
             {
                 break;
             }
@@ -288,7 +357,7 @@ int Game::hunt()
         std::cin >> str1;
         while(true)
         {
-            if(stoi(str1) == 1)
+            if(basic_tool::stoi(str1) == 1)
             {
                 Puzzle puzzle;
                 bash.show_puzzle();
@@ -296,7 +365,7 @@ int Game::hunt()
                 while(cnt--)
                 {
                     std::cin >> str2;
-                    if(puzzle.solve(stoi(str2)) == puzzle.MATCH)
+                    if(puzzle.solve(basic_tool::stoi(str2)) == puzzle.MATCH)
                     {
                         if(player.reduce_bullets(5) != player.NOENOUGH_BULLETS)
                         {
@@ -317,7 +386,7 @@ int Game::hunt()
                 }
                 break;
             }
-            else if(stoi(str2) == 2)
+            else if(basic_tool::stoi(str2) == 2)
             {
                 break;
             }
@@ -329,7 +398,7 @@ int Game::hunt()
         std::cin >> str1;
         while(true)
         {
-            if(stoi(str1) == 1)
+            if(basic_tool::stoi(str1) == 1)
             {
                 Puzzle puzzle;
                 bash.show_puzzle();
@@ -337,7 +406,7 @@ int Game::hunt()
                 while(cnt--)
                 {
                     std::cin >> str2;
-                    if(puzzle.solve(stoi(str2)) == puzzle.MATCH)
+                    if(puzzle.solve(basic_tool::stoi(str2)) == puzzle.MATCH)
                     {
                         if(player.reduce_bullets(10) != player.NOENOUGH_BULLETS)
                         {
@@ -358,7 +427,7 @@ int Game::hunt()
                 }
                 break;
             }
-            else if(stoi(str2) == 2)
+            else if(basic_tool::stoi(str2) == 2)
             {
                 break;
             }
@@ -370,7 +439,7 @@ int Game::hunt()
         std::cin >> str1;
         while(true)
         {
-            if(stoi(str1) == 1)
+            if(basic_tool::stoi(str1) == 1)
             {
                 Puzzle puzzle;
                 bash.show_puzzle();
@@ -378,7 +447,7 @@ int Game::hunt()
                 while(cnt--)
                 {
                     std::cin >> str2;
-                    if(puzzle.solve(stoi(str2)) == puzzle.MATCH)
+                    if(puzzle.solve(basic_tool::stoi(str2)) == puzzle.MATCH)
                     {
                         if(player.reduce_bullets(12) != player.NOENOUGH_BULLETS)
                         {
@@ -399,11 +468,77 @@ int Game::hunt()
                 }
                 break;
             }
-            else if(stoi(str2) == 2)
+            else if(basic_tool::stoi(str2) == 2)
             {
                 break;
             }
         }
     }
+}
+int Game::opt_negtiveEvent()
+{
+
+    switch(misfortunes.continue_sickEvent())
+    {
+    case 0:
+        bash.pop_memberDead(player.get_leaderName());
+        break;
+    case 1:
+        bash.pop_memberDead(player.get_member1Name());
+        break;
+    case 2:
+        bash.pop_memberDead(player.get_member2Name());
+        break;
+    case 3:
+        bash.pop_memberDead(player.get_member3Name());
+        break;
+    case 4:
+        bash.pop_memberDead(player.get_member4Name());
+        break;
+    default:
+        break;
+    }
+
+    if(misfortunes.get_misfortunes() == misfortunes.NOTHAPPENED)
+    {
+        return 0;
+    }
+
+    switch(misfortunes.get_eventType())
+    {
+    case misfortunes.EVENT_SOMEBODY_SICK:
+        switch(misfortunes.eventGenerate_somebodyGetSick())
+        {
+        case 0:
+            bash.pop_memberSick(player.get_leaderName());
+            break;
+        case 1:
+            bash.pop_memberSick(player.get_member1Name());
+            break;
+        case 2:
+            bash.pop_memberSick(player.get_member2Name());
+            break;
+        case 3:
+            bash.pop_memberSick(player.get_member3Name());
+            break;
+        case 4:
+            bash.pop_memberSick(player.get_member4Name());
+            break;
+        default:
+            break;
+        }
+        break;
+    default:
+            break;
+    }
+}
+int Game::isGameOver()
+{
+    if(player.get_food() <= 0 || player.get_oxen() <= 0 || time.isBehindSchedule())
+    {
+        bash.game_over();
+        return 0;
+    }
+    return 1;
 }
 #endif // GAME_CPP
