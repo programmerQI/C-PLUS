@@ -12,13 +12,17 @@ typedef struct Vtree
     int index;
     Vtree** nexts;
 }*Vtree_link, Vtree;
+int getMax(int a, int b)
+{
+    return a > b ? a : b;
+}
 int getNum(char c)
 {
-    if(c >= 'a' || c <= 'z')
+    if(c >= 'a' && c <= 'z')
     {
         return c - 'a';
     }
-    if(c >= 'A' || c <= 'Z')
+    if(c >= 'A' && c <= 'Z')
     {
         return c - 'A';
     }
@@ -35,6 +39,23 @@ int isChr(char c)
         return 1;
     }
     return 0;
+}
+string getLower(string word)
+{
+    int len = word.length();
+    string ans;
+    for(int i = 0; i < len; i ++)
+    {
+        if(word[i] >= 'A' && word[i] <= 'Z')
+        {
+            ans.push_back(word[i] - 'A' + 'a');
+        }
+        else
+        {
+            ans.push_back(word[i]);
+        }
+    }
+    return ans;
 }
 int split(string str, char c, string strs[], int s)
 {
@@ -77,6 +98,18 @@ Vtree_link initNode()
         node->nexts[i] = NULL;
     }
     return node;
+}
+int getDepth(Vtree_link node, int p)
+{
+    int depth = p;
+    for(int i = 0; i < 26; i ++ )
+    {
+        if(node->nexts[i] != NULL)
+        {
+            depth = getMax(getDepth(node->nexts[i], p + 1), depth);
+        }
+    }
+    return depth;
 }
 int insertVocab(Vtree_link r, string vocab, bool iw, bool m, int idx)
 {
@@ -173,17 +206,38 @@ int isCorrect(string word, Vtree_link r)
 {
     if(r == NULL)
     {
-        return -2;
+        return -3;
     }
 
     Vtree_link node = r;
     int i = 0;
-    while(wor)
-    return 0;
+    int id;
+    while(word[i] != '\0')
+    {
+        //cout << "This is it" << endl;
+        id = getNum(word[i]);
+        if(node->nexts[id] == NULL)
+        {
+            return -2;
+        }
+        node = node->nexts[id];
+
+        i ++;
+    }
+    if(node->isword && node->msp)
+    {
+        return node->index;
+    }
+    else if(node->isword)
+    {
+        return -1;
+    }
+    return -2;
 }
-string correct(string str)
+string correct(string str, string *l, Vtree_link root)
 {
     int i = 0;
+    int status;
     string tmp;
     string unk = "unknown";
 
@@ -199,12 +253,24 @@ string correct(string str)
             word.push_back(str[i]);
             i ++;
         }
-
-        tmp.append(word);
-        tmp.push_back(str[i]);
-
-        if(str[i] != '\0')
+        status = isCorrect(word, root);
+        if(status == -2)
         {
+            word = unk;
+        }
+        else if(status != -1 && status != -3)
+        {
+            word = l[status];
+        }
+        else if(status == -1)
+        {
+            word = getLower(word);
+        }
+        tmp.append(word);
+
+        while(!isChr(str[i]) && str[i] != '\0')
+        {
+            tmp.push_back(str[i]);
             i ++;
         }
     }
@@ -212,26 +278,24 @@ string correct(string str)
 }
 int main()
 {
-//    Vtree_link root = initNode();
-//    string vocabs[SIZE];
-//    string misspellings[SIZE];
-//    int vocab_count = 0;
-//    int mispel_count = 0;
-//
-//    vocab_count = getVocab(vocabs, SIZE, root);
-//    //cout << vocab_count << endl;
-//    mispel_count = getMisspellings(misspellings, SIZE, root);
-//    //cout << mispel_count << endl;
-//
-//    string str;
-//    cout << "Enter the phrase you would like to correct:" << endl;
-//    getline(cin, str);
+    Vtree_link root = initNode();
+    string vocabs[SIZE];
+    string misspellings[SIZE];
+    int vocab_count = 0;
+    int mispel_count = 0;
 
-    string ans = "asd";
-    string ans1;
-    string ans2 = "asd";
-    ans.append(ans1);
-    ans.append(ans2);
+    vocab_count = getVocab(vocabs, SIZE, root);
+    //cout << vocab_count << endl;
+    mispel_count = getMisspellings(misspellings, SIZE, root);
+    //cout << mispel_count << endl;
+
+    //cout << getDepth(root, 0) << endl;
+    //cout << cnt << endl;
+    string str, ans;
+    cout << "Enter the phrase you would like to correct:" << endl;
+    getline(cin, str);
+
+    ans = correct(str, misspellings, root);
     cout << ans << endl;
 
     return 0;
